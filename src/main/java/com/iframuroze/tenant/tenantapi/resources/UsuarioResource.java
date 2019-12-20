@@ -32,13 +32,13 @@ public class UsuarioResource {
 	UsuarioRepository usuarioRepository;
 	
 
-	@ApiOperation(value = "Retorna uma lista de usuarios")
+	@ApiOperation(value = "Retorna uma lista de todos Usuarios")
 	@GetMapping("/usuarios")
 	public List<UsuarioEntity> listaUsuarios() {
 		return usuarioRepository.findAll();
 	}
 
-	@ApiOperation(value = "Retorna usuario por id")
+	@ApiOperation(value = "Retorna unico usuario pelo seu ID")
 	@GetMapping("/usuario/{id}")
 	public UsuarioEntity listaUsusarioporID(@PathVariable(value = "id") long id) {
 		return usuarioRepository.findById(id);

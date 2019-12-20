@@ -35,19 +35,19 @@ public class EmpresaResource {
 	@Autowired
 	EmpresaRepository empresaRepository;
 	
-	@ApiOperation(value = "Retorna uma lista de Empresas")
+	@ApiOperation(value = "Retorna uma lista de Empresas sem nenhum parametro")
 	@GetMapping("/empresas")
 	public List<EmpresaEntity> listaEmpresas() {
 		return empresaRepository.findAll();
 	}
 
-	@ApiOperation(value = "Retorna empresa por id")
+	@ApiOperation(value = "Retorna a entidade empresa: enviando como parametro o seu ID")
 	@GetMapping("/empresa/{id}")
 	public EmpresaEntity listaEmpresaporID(@PathVariable(value = "id") long id) {
 		return empresaRepository.findById(id);
 	}
 
-	@ApiOperation(value = "Retorna empresa por inquilino")
+	@ApiOperation(value = "Retorna uma lista de Empresas que pertencam a um tenant: enviando como parametro o tenant")
 	@GetMapping("/empresas/{tenantId}")
 	public Iterable<EmpresaEntity> listaEmpresaporTenant(@PathVariable(value = "tenantId") long tenantId) {
 		TenantEntity tenantEntity = tenantRepository.findById(tenantId);
@@ -66,7 +66,7 @@ public class EmpresaResource {
 		empresaRepository.delete(empresaEntity);
 	}
 
-	@ApiOperation(value = "Atualiza uma empresa")
+	@ApiOperation(value = "Atualiza os detelhes de uma empresa")
 	@PutMapping("/empresa")
 	public EmpresaEntity atualizaEmpresa(@RequestBody @Valid EmpresaEntity empresaEntity) {
 		return empresaRepository.save(empresaEntity);

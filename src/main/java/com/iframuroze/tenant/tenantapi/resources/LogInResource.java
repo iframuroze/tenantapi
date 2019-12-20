@@ -33,7 +33,7 @@ public class LogInResource {
 	AcessoEmpresaRepository acessoEmpresaRepository;
 		
 	
-	@ApiOperation(value = "Autentica um usuario e retorna o mapeamento de empresas que tenha acesso")
+	@ApiOperation(value = "Autentica um usuario pelo seu email e senha e retorna o mapeamento de empresas que este tenha acesso")
 	@GetMapping("/login/{emailUsuario}/{senha}")
 	public Iterable<AcessoEmpresaEntity> efectuarLogIn(@PathVariable(value = "emailUsuario") String emailUsuario,
 			@PathVariable(value = "senha") String senha, HttpSession session) {

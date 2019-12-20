@@ -42,27 +42,27 @@ public class AcessoEmpresaResource {
 	@Autowired
 	AcessoEmpresaRepository acessoEmpresaRepository;
 
-	@ApiOperation(value = "Retorna Acessos a empresas por usuario")
+	@ApiOperation(value = "Retorna Acessos a empresas por usuario: Enviando como parametro um usuario")
 	@GetMapping("/empresasAutorizadas/{usuarioId}")
 	public Iterable<AcessoEmpresaEntity> listaEmpresasDoUsuario(@PathVariable(value = "usuarioId") long usuarioId) {
 		UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId);
 		return acessoEmpresaRepository.findByUsuario(usuarioEntity);
 	}
 
-	@ApiOperation(value = "Retorna Usuarios De Uma Empresa")
+	@ApiOperation(value = "Retorna Usuarios de uma Empresa")
 	@GetMapping("/acessosDaEmpresa/{empresaId}")
 	public Iterable<AcessoEmpresaEntity> listaUsuariosDaEmpresa(@PathVariable(value = "empresaId") long empresaId) {
 		EmpresaEntity empresaEntity = empresaRepository.findById(empresaId);
 		return acessoEmpresaRepository.findByEmpresa(empresaEntity);
 	}
 
-	@ApiOperation(value = "Retorna Usuarios De Um tenant")
+	@ApiOperation(value = "Retorna Usuarios de um tenant: Enviando como parametro o id do tenant")
 	@GetMapping("/usuariosTenant/{tenantId}")
 	public Iterable<AcessoEmpresaEntity> listaUsuariosDoTenant(@PathVariable(value = "tenantId") long tenantId) {
 		return acessoEmpresaRepository.findByTenant(tenantId);
 	}
 
-	@ApiOperation(value = "Adiciona uma associacao entre empresa e usuario")
+	@ApiOperation(value = "Adiciona uma associacao entre empresa e usuario e consequetemente o ID do seu tenant")
 	@PostMapping("/empresaUsuario")
 	public AcessoEmpresaEntity SalvaEmpresaDoUsuario(@RequestBody @Valid AcessoEmpresaEntity acessoEmpresaEntity) {
 		acessoEmpresaEntity.setTenant(acessoEmpresaEntity.getEmpresa().getTenant().getId_tenant());

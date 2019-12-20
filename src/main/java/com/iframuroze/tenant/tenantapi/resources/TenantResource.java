@@ -30,25 +30,25 @@ public class TenantResource {
 	@Autowired
 	TenantRepository tenantRepository;
 
-	@ApiOperation(value = "Retorna uma lista de inquilinos")
+	@ApiOperation(value = "Retorna uma lista de Tenants")
 	@GetMapping("/tenants")
 	public List<TenantEntity> listaTenants() {
 		return tenantRepository.findAll();
 	}
 
-	@ApiOperation(value = "Retorna um unico inquilino")
+	@ApiOperation(value = "Retorna um unico Tenant. Enviando como parametro o seu ID")
 	@GetMapping("/tenant/{id}")
 	public TenantEntity listaTenantyUnico(@PathVariable(value = "id") long id) {
 		return tenantRepository.findById(id);
 	}
 
-	@ApiOperation(value = "Salva um inquilino")
+	@ApiOperation(value = "Salva um Tenant")
 	@PostMapping("/tenant")
 	public TenantEntity salvaTenant(@RequestBody @Valid TenantEntity tenantEntity) {
 		return tenantRepository.save(tenantEntity);
 	}
 
-	@ApiOperation(value = "Exclui um inquilino")
+	@ApiOperation(value = "Exclui um Tenant")
 	@DeleteMapping("/tenant")
 	public void excluiTenant(@RequestBody @Valid TenantEntity tenantEntity) {
 		tenantRepository.delete(tenantEntity);

@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iframuroze.tenant.tenantapi.models.AcessoEmpresaEntity;
-import com.iframuroze.tenant.tenantapi.models.UsuarioEntity;
-import com.iframuroze.tenant.tenantapi.repository.AcessoEmpresaRepository;
-import com.iframuroze.tenant.tenantapi.repository.UsuarioRepository;
+import com.iframuroze.tenant.tenantapi.exceptions.AuthenticationFailedException;
+import com.iframuroze.tenant.tenantapi.models.AccessRuleEntity;
+import com.iframuroze.tenant.tenantapi.models.UserEntity;
+import com.iframuroze.tenant.tenantapi.repository.AccessRuleRepository;
+import com.iframuroze.tenant.tenantapi.repository.UserRepository;
 import com.iframuroze.tenant.tenantapi.util.Util;
 
 
@@ -27,22 +28,27 @@ import io.swagger.annotations.ApiOperation;
 public class LogInResource {
 
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	UserRepository userRepository;
 	
 	@Autowired
-	AcessoEmpresaRepository acessoEmpresaRepository;
+	AccessRuleRepository accessRuleRepository;
 		
 	
 	@ApiOperation(value = "Autentica um usuario pelo seu email e senha e retorna o mapeamento de empresas que este tenha acesso")
-	@GetMapping("/login/{emailUsuario}/{senha}")
-	public Iterable<AcessoEmpresaEntity> efectuarLogIn(@PathVariable(value = "emailUsuario") String emailUsuario,
-			@PathVariable(value = "senha") String senha, HttpSession session) {
-		UsuarioEntity usuarioEntity = usuarioRepository.findByEmailUsuarioAndSenha(emailUsuario, Util.md5(senha));
-		if (usuarioEntity != null) {
-			session.setAttribute("usuarioLogado", usuarioEntity);
-			return acessoEmpresaRepository.findByUsuario(usuarioEntity);
+	@GetMapping("/login/{userEmail}/{userPassword}")
+	public Iterable<AccessRuleEntity> logIn(@PathVariable(value = "userEmail") String userEmail,
+			@PathVariable(value = "userPassword") String userPassword, HttpSession session) {
+		UserEntity userEntity = new UserEntity();
+		try {			
+			userEntity = userRepository.findByUserEmailAndUserPassword(userEmail, Util.md5(userPassword));
+		}catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
+		}
+		if (userEntity!= null) {
+			session.setAttribute("loggedUser", userEntity);
+			return accessRuleRepository.findByUser(userEntity);
 		} else {
-			return null;
+			throw new AuthenticationFailedException("Email ou senha invalidos");
 		}
 
 	}

@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="TB_ACESSO_EMPRESA")
-public class AcessoEmpresaEntity implements Serializable{
+@Table(name="TB_ACCESS_RULE")
+public class AccessRuleEntity implements Serializable{
 	
 	/**
 	 * Entidade que armazena as ligacao entre as empresas de um inquilino
@@ -23,43 +23,43 @@ public class AcessoEmpresaEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long Id_acesso;
+	private long accessId;
 
 	@ManyToOne
-	private UsuarioEntity usuario;
+	private UserEntity user;
 	
 	@ManyToOne
-	private EmpresaEntity empresa;
+	private CompanyEntity company;
 	
 	private char active;
 	
-	private int acessLevel;
+	private int accessLevel;
 	
 	private long tenant;
 
 
-	public long getId_acesso() {
-		return Id_acesso;
+	public long getAccessId() {
+		return accessId;
 	}
 
-	public void setId_acesso(long id_acesso) {
-		Id_acesso = id_acesso;
+	public void setAccessId(long accessId) {
+		this.accessId = accessId;
 	}
 
-	public UsuarioEntity getUsuario() {
-		return usuario;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public void setUsuario(UsuarioEntity usuario) {
-		this.usuario = usuario;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
-	public EmpresaEntity getEmpresa() {
-		return empresa;
+	public CompanyEntity getCompany() {
+		return company;
 	}
 
-	public void setEmpresa(EmpresaEntity empresa) {
-		this.empresa = empresa;
+	public void setCompany(CompanyEntity company) {
+		this.company = company;
 	}
 
 	public char getActive() {
@@ -70,12 +70,12 @@ public class AcessoEmpresaEntity implements Serializable{
 		this.active = active;
 	}
 
-	public int getAcessLevel() {
-		return acessLevel;
+	public int getAccessLevel() {
+		return accessLevel;
 	}
 
-	public void setAcessLevel(int acessLevel) {
-		this.acessLevel = acessLevel;
+	public void setAccessLevel(int accessLevel) {
+		this.accessLevel = accessLevel;
 	}
 
 	public long getTenant() {
@@ -86,5 +86,4 @@ public class AcessoEmpresaEntity implements Serializable{
 		this.tenant = tenant;
 	}
 
-	
 }

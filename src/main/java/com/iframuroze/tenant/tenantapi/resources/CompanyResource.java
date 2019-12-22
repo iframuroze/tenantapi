@@ -1,7 +1,9 @@
 package com.iframuroze.tenant.tenantapi.resources;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iframuroze.tenant.tenantapi.models.EmpresaEntity;
+import com.iframuroze.tenant.tenantapi.models.CompanyEntity;
 import com.iframuroze.tenant.tenantapi.models.TenantEntity;
-import com.iframuroze.tenant.tenantapi.repository.EmpresaRepository;
+import com.iframuroze.tenant.tenantapi.repository.CompanyRepository;
 import com.iframuroze.tenant.tenantapi.repository.TenantRepository;
 
 import io.swagger.annotations.Api;
@@ -27,49 +29,53 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/api")
 @Api(value = "API REST Tenant")
-public class EmpresaResource {
+public class CompanyResource {
 
 	@Autowired
 	TenantRepository tenantRepository;
 
 	@Autowired
-	EmpresaRepository empresaRepository;
+	CompanyRepository companyRepository;
 	
 	@ApiOperation(value = "Retorna uma lista de Empresas sem nenhum parametro")
-	@GetMapping("/empresas")
-	public List<EmpresaEntity> listaEmpresas() {
-		return empresaRepository.findAll();
+	@GetMapping("/listCompanies")
+	public List<CompanyEntity> listCompanies() throws SQLException{
+		return companyRepository.findAll();
 	}
 
 	@ApiOperation(value = "Retorna a entidade empresa: enviando como parametro o seu ID")
-	@GetMapping("/empresa/{id}")
-	public EmpresaEntity listaEmpresaporID(@PathVariable(value = "id") long id) {
-		return empresaRepository.findById(id);
+	@GetMapping("/listCompanyById/{id}")
+	public CompanyEntity listCompanyById(@PathVariable(value = "id") long id) throws SQLException {
+		return companyRepository.findById(id);
 	}
 
 	@ApiOperation(value = "Retorna uma lista de Empresas que pertencam a um tenant: enviando como parametro o tenant")
-	@GetMapping("/empresas/{tenantId}")
-	public Iterable<EmpresaEntity> listaEmpresaporTenant(@PathVariable(value = "tenantId") long tenantId) {
+	@GetMapping("/listTenantCompanies/{tenantId}")
+	public Iterable<CompanyEntity> listTenantCompaniesByTenantId(@PathVariable(value = "tenantId") long tenantId) throws SQLException {
 		TenantEntity tenantEntity = tenantRepository.findById(tenantId);
-		return empresaRepository.findByTenant(tenantEntity);
+		return companyRepository.findByTenant(tenantEntity);
 	}
 
 	@ApiOperation(value = "Salva uma empresa")
-	@PostMapping("/empresa")
-	public EmpresaEntity salvaEmpresa(@RequestBody @Valid EmpresaEntity empresaEntity) {
-		return empresaRepository.save(empresaEntity);
+	@PostMapping("/saveCompany")
+	public CompanyEntity saveCompany(@RequestBody @Valid CompanyEntity companyEntity) throws SQLException{
+		return companyRepository.save(companyEntity);
 	}
 
 	@ApiOperation(value = "Exclui uma empresa")
-	@DeleteMapping("/empresa")
-	public void excluiEmpresa(@RequestBody @Valid EmpresaEntity empresaEntity) {
-		empresaRepository.delete(empresaEntity);
+	@DeleteMapping("/deleteCompany")
+	public void deleteCompany(@RequestBody @Valid CompanyEntity companyEntity) throws SQLException {
+		companyRepository.delete(companyEntity);
 	}
 
 	@ApiOperation(value = "Atualiza os detelhes de uma empresa")
-	@PutMapping("/empresa")
-	public EmpresaEntity atualizaEmpresa(@RequestBody @Valid EmpresaEntity empresaEntity) {
-		return empresaRepository.save(empresaEntity);
+	@PutMapping("/updateCompany")
+	public CompanyEntity updateCompany(@RequestBody @Valid CompanyEntity companyEntity) throws SQLException {
+		if(companyRepository.findById(companyEntity.getCompanyId())!=null) {			
+			return companyRepository.save(companyEntity);
+		}else {
+			throw new EntityNotFoundException("Empresa Nao Encontrada");
+		}
 	}
 
 }

@@ -22,47 +22,46 @@ public class TenantEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long Id_tenant;
+	private long tenantId;
 	
-	private String name;
+	private String tenantName;
 	
-	private String shortName;
+	private String shortTenantName;
 	
-	@OneToMany
-	private List<EmpresaEntity> empresaEntity;
+	/*@OneToMany
+	private List<CompanyEntity> companyEntity;
+	*/
 
-	public long getId_tenant() {
-		return Id_tenant;
+	public long getTenantId() {
+		return tenantId;
 	}
 
-	public void setId_tenant(long id_tenant) {
-		Id_tenant = id_tenant;
+	public void setTenantId(long tenantId) {
+		this.tenantId = tenantId;
 	}
 
-	public String getName() {
-		return name;
+	public String getTenantName() {
+		return tenantName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTenantName(String tenantName) {
+		this.tenantName = tenantName;
 	}
 
-	public String getShortName() {
-		return shortName;
+	public String getShortTenantName() {
+		return shortTenantName;
 	}
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setShortTenantName(String shortTenantName) {
+		this.shortTenantName = shortTenantName;
 	}
 
-	public List<EmpresaEntity> getEmpresaEntity() {
-		return empresaEntity;
+	/*public List<CompanyEntity> getCompanyEntity() {
+		return companyEntity;
 	}
 
-	public void setEmpresaEntity(List<EmpresaEntity> empresaEntity) {
-		this.empresaEntity = empresaEntity;
-	}
-	
-	
+	public void setCompanyEntity(List<CompanyEntity> companyEntity) {
+		this.companyEntity = companyEntity;
+	}*/
 
 }

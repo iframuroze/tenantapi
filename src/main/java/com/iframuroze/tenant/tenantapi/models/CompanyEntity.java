@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="TB_EMPRESA")
-public class EmpresaEntity implements Serializable{
+@Table(name="TB_COMPANY")
+public class CompanyEntity implements Serializable{
 	
 	/**
 	 * 
@@ -21,37 +21,37 @@ public class EmpresaEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long Id_empresa;
+	private long companyId;
 	
-	private String name_empresa;
+	private String companyName;
 	
-	private String shortName_empresa;
+	private String shortCompanyName;
 	
 	@ManyToOne
 	private TenantEntity tenant;
 
-	public long getId_empresa() {
-		return Id_empresa;
+	public long getCompanyId() {
+		return companyId;
 	}
 
-	public void setId_empresa(long id_empresa) {
-		Id_empresa = id_empresa;
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
 	}
 
-	public String getName_empresa() {
-		return name_empresa;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setName_empresa(String name_empresa) {
-		this.name_empresa = name_empresa;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
-	public String getShortName_empresa() {
-		return shortName_empresa;
+	public String getShortCompanyName() {
+		return shortCompanyName;
 	}
 
-	public void setShortName_empresa(String shortName_empresa) {
-		this.shortName_empresa = shortName_empresa;
+	public void setShortCompanyName(String shortCompanyName) {
+		this.shortCompanyName = shortCompanyName;
 	}
 
 	public TenantEntity getTenant() {
